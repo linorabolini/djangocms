@@ -1,0 +1,70 @@
+<style>
+body { padding-top: 70px; }
+
+/*
+ * Remove the gap between audio, canvas, iframes,
+ * images, videos and the bottom of their containers:
+ * https://github.com/h5bp/html5-boilerplate/issues/440
+ */
+audio,
+canvas,
+iframe,
+img,
+svg,
+video {
+    vertical-align: middle;
+    max-width: 100%;
+}
+
+.crop-16x9 {
+    padding-bottom: 56.25%;
+}
+
+.crop-3x2 {
+    padding-bottom: 66.6666%;
+}
+
+.crop-2x1 {
+    padding-bottom: 50%;
+}
+
+.crop-1x2 {
+    padding-bottom: 200%;
+}
+
+.crop-3x1 {
+    padding-bottom: 33.3333%;
+}
+
+.crop-1x1 {
+    padding-bottom: 100%;
+}
+
+.crop {
+    display: block;
+    height: 0;
+    width: 100%;
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-color: #f5f5f5;
+    overflow: hidden;
+}
+
+.res_video {
+    position: relative;
+    height: 0;
+    padding-bottom: 56.25%; /* 16:9 */
+}
+
+.res_video iframe {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+}
+
+picture.crop img {
+    width: 100%;
+}
+</style>

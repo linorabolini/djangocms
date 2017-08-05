@@ -1,0 +1,25 @@
+{% load i18n staticfiles thumbnail cms_tags apphooks_config_tags %}
+
+<article class="article
+    {% if article.is_featured %} featured{% endif %}
+    {% if not article.published %} unpublished{% endif %}">
+
+    <div class="post-preview">
+        <a href="{% namespace_url 'article-detail' article.slug namespace=namespace default='' %}">
+            {% include "aldryn_newsblog/includes/article_thumb.html" with crop_size='3x2' m_size="600x400" d_size="1200x800" %}
+            <h2 class="post-title">
+                {% render_model article "title" "" "" "striptags" %}
+            </h2>
+            {% if article.lead_in %}
+            <h3 class="post-subtitle">
+                {% render_model article "lead_in" "" "" "truncatewords:'20'|striptags" %}
+            </h3>
+            {% endif %}
+        </a>
+        <p class="post-meta"> Posted by 
+            {% include "aldryn_newsblog/includes/author.html" with author=article.author %}
+            on {{ article.publishing_date|date:"F n, Y" }}
+        </p>
+    </div>
+    <hr>
+</article>

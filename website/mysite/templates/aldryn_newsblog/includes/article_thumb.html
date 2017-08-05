@@ -1,0 +1,11 @@
+{% load i18n thumbnail %}
+
+{% if article.featured_image_id %}
+<picture class="crop crop-{{crop_size}}">
+    <source lazy-srcset="{% thumbnail article.featured_image m_size crop subject_location=article.featured_image.subject_location %}" media="(max-width: 599px)" >
+    <source lazy-srcset="{% thumbnail article.featured_image d_size crop subject_location=article.featured_image.subject_location %}" media="(max-width: 799px)" >
+    <img lazy-img="{% thumbnail article.featured_image d_size crop subject_location=article.featured_image.subject_location %}">
+</picture>
+{% else %}
+<div class="placeholder crop {{crop_size}}"></div>
+{% endif %}

@@ -2,7 +2,7 @@
 
 {% for article in article_list %}
     <div class="post-preview">
-        {% include "aldryn_newsblog/includes/article.html" with namespace=instance.app_config.namespace %}
+        {% include "aldryn_newsblog/includes/article_list.html" with namespace=instance.app_config.namespace %}
     </div>
 {% empty %}
     <p>{% trans "No items available" %}</p>

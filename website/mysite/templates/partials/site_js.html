@@ -1,2 +1,105 @@
-<script src="https://code.jquery.com/jquery-3.1.1.slim.min.js" integrity="sha384-A7FZj7v+d/sdmMqp/nOQwliLvUsJfDHW+k9Omg/a/EheAdgtzNs3hpfag6Ed950n" crossorigin="anonymous"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+<script src="https://code.jquery.com/jquery-3.1.1.slim.min.js" integrity="sha384-A7FZj7v+d/sdmMqp/nOQwliLvUsJfDHW+k9Omg/a/EheAdgtzNs3hpfag6Ed950n" crossorigin="anonymous"></script><script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+
+<script>
+var LOADING_ATTR = "lazy-loading";
+
+function lazyLoadByAttr(attrFrom, attrTo, processAttrs) {
+    processAttrs = processAttrs || replaceAttrAndRemoveFrom;
+    var arr = document.querySelectorAll('[' + attrFrom + ']');
+    for(var i=0; i < arr.length; ++i) {
+        var el = arr[i];
+        if(elementInViewport(el, 200, 600)){
+            processAttrs(el, attrFrom, attrTo);
+        }
+    };
+}
+
+function replaceAttrAndRemoveFrom(el, attrFrom, attrTo) {
+    el.setAttribute(attrTo, el.getAttribute(attrFrom));
+    el.removeAttribute(attrFrom);
+}
+
+var checkRunnerLazyLoadedItems = throttle(function() {
+    lazyLoadByAttr('lazy-iframe', 'src', processIframes);
+    lazyLoadByAttr('lazy-img', 'src', processImage);
+    lazyLoadByAttr('lazy-srcset', 'srcset');
+}, 100);
+
+
+// process post images with background img
+function processImage(el, attrFrom, attrTo) {
+    el.setAttribute(LOADING_ATTR, true);
+    var img = document.createElement('img');
+    img.onload = function() {
+        el.removeAttribute(attrFrom);
+        el.removeAttribute(LOADING_ATTR);
+        el.setAttribute(attrTo, img.src);
+    };
+    img.src = el.getAttribute(attrFrom);
+}
+
+// process iframes
+function processIframes(el, attrFrom, attrTo) {
+    el.onload = function() {
+        el.removeAttribute(attrFrom);
+        el.removeAttribute(LOADING_ATTR);
+    };
+    el.setAttribute(attrTo, el.getAttribute(attrFrom));
+    el.setAttribute(LOADING_ATTR, true);
+}
+
+checkRunnerLazyLoadedItems();
+
+function debounce(func, wait, immediate) {
+    var timeout;
+    return function() {
+        var context = this, args = arguments;
+        var later = function() {
+            timeout = null;
+            if (!immediate) func.apply(context, args);
+        };
+        var callNow = immediate && !timeout;
+        clearTimeout(timeout);
+        timeout = setTimeout(later, wait);
+        if (callNow) func.apply(context, args);
+    };
+};
+
+function throttle (callback, limit) {
+  var wait = false;
+  return function () {
+    if (!wait) {
+      callback.apply(null, arguments);
+      wait = true;
+      setTimeout(function () {
+        wait = false;
+      }, limit);
+    }
+  }
+}
+
+function elementInViewport(el, extraOffsetTop, extraOffsetBottom) {
+  var extraOffsetTop = extraOffsetTop || 0;
+  var extraOffsetBottom = extraOffsetBottom || 0;
+  var top = el.offsetTop;
+  var left = el.offsetLeft;
+  var width = el.offsetWidth;
+  var height = el.offsetHeight;
+  while(el.offsetParent) {
+    el = el.offsetParent;
+    top += el.offsetTop;
+  }
+  return (
+    top - extraOffsetTop < (window.pageYOffset + window.innerHeight) &&
+    left < (window.pageXOffset + window.innerWidth) &&
+    (top + height + extraOffsetBottom) > window.pageYOffset &&
+    (left + width) > window.pageXOffset
+  );
+}
+if(!!window.addEventListener){
+  window.addEventListener('scroll', checkRunnerLazyLoadedItems);
+} else {
+  window.onscroll = checkRunnerLazyLoadedItems();
+}
+
+</script>
