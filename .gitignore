@@ -1,0 +1,10 @@
+env
+.env
+.DS_Store
+website/database.db
+website/project.db
+website/requirements.txt
+website/static
+website/media
+*.pyc
+.idea
