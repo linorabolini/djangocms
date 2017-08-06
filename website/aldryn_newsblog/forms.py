@@ -45,7 +45,7 @@ class NewsBlogFeaturedArticlesPluginForm(AutoAppConfigFormMixin,
                                          forms.ModelForm):
     class Meta:
         model = models.NewsBlogFeaturedArticlesPlugin
-        fields = ['app_config', 'article_count', 'custom_template']
+        fields = ['app_config', 'article_count', 'skip_articles', 'custom_template']
 
 
 class NewsBlogLatestArticlesPluginForm(AutoAppConfigFormMixin,
@@ -53,7 +53,7 @@ class NewsBlogLatestArticlesPluginForm(AutoAppConfigFormMixin,
     class Meta:
         model = models.NewsBlogLatestArticlesPlugin
         fields = [
-            'app_config', 'latest_articles', 'exclude_featured',
+            'app_config', 'latest_articles', 'skip_articles', 'exclude_featured',
             'cache_duration', 'custom_template'
         ]
 

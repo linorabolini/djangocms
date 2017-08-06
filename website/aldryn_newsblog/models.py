@@ -293,7 +293,6 @@ class NewsBlogCMSPlugin(CMSPlugin):
 
     custom_template = models.CharField(
         choices=ARTICLE_TEMPLATE_CHOICE_LIST,
-        default='default',
         max_length=255,
         blank=True,
     )
@@ -416,6 +415,12 @@ class NewsBlogFeaturedArticlesPlugin(PluginEditModeMixin, NewsBlogCMSPlugin):
         help_text=_('The maximum number of featured articles display.')
     )
 
+    skip_articles = models.PositiveIntegerField(
+        default=0,
+        validators=[django.core.validators.MinValueValidator(0)],
+        help_text=_('Amout of featured articles to Skip.')
+    )
+
 
     def get_articles(self, request):
         if not self.article_count:
@@ -430,7 +435,7 @@ class NewsBlogFeaturedArticlesPlugin(PluginEditModeMixin, NewsBlogCMSPlugin):
         queryset = queryset.translated(*languages).filter(
             app_config=self.app_config,
             is_featured=True)
-        return queryset[:self.article_count]
+        return queryset[self.skip_articles:self.article_count + self.skip_articles]
 
     def __str__(self):
         if not self.pk:
@@ -452,6 +457,11 @@ class NewsBlogLatestArticlesPlugin(PluginEditModeMixin,
     latest_articles = models.IntegerField(
         default=5,
         help_text=_('The maximum number of latest articles to display.')
+    )
+    skip_articles = models.PositiveIntegerField(
+        default=0,
+        validators=[django.core.validators.MinValueValidator(0)],
+        help_text=_('Amout of lastest articles to Skip.')
     )
     exclude_featured = models.PositiveSmallIntegerField(
         default=0,
@@ -483,12 +493,13 @@ class NewsBlogLatestArticlesPlugin(PluginEditModeMixin,
         exclude_featured = featured_qs.values_list(
             'pk', flat=True)[:self.exclude_featured]
         queryset = queryset.exclude(pk__in=list(exclude_featured))
-        return queryset[:self.latest_articles]
+        return queryset[self.skip_articles:self.latest_articles + self.skip_articles]
 
     def __str__(self):
         return ugettext('%(app_title)s latest articles: %(latest_articles)s') % {
             'app_title': self.app_config.get_app_title(),
             'latest_articles': self.latest_articles,
+            'skip_articles': self.skip_articles,
         }
 
 

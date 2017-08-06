@@ -1,0 +1,6 @@
+{% load i18n staticfiles thumbnail cms_tags apphooks_config_tags %}
+{% if article.lead_in %}
+<h3 class="post-subtitle">
+    {% render_model article "lead_in" "" "" "truncatewords:'20'|striptags" %}
+</h3>
+{% endif %}

@@ -205,9 +205,13 @@ DATABASES = {
 }
 
 ARTICLE_TEMPLATE_CHOICE_LIST = (
-    ('default', 'Default'),
-    ('test_template', 'Featured'),
+    ('small', 'Small Image Format'),
 )
+
+TEMPLATE_ID_TO_PATH = {
+    'small': 'article/posts-small.html',
+}
+
 
 MIGRATION_MODULES = {
     

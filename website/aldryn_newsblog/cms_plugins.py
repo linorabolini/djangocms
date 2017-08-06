@@ -2,6 +2,7 @@
 
 from __future__ import unicode_literals
 
+from django.conf import settings
 from distutils.version import LooseVersion
 from django.utils.translation import ugettext_lazy as _
 
@@ -16,19 +17,15 @@ CMS_GTE_330 = LooseVersion(cms_version) >= LooseVersion('3.3.0')
 
 TEMPLATE_PATH = 'aldryn_newsblog/plugins/{}.html'
 
+TEMPLATE_ID_TO_PATH = getattr(
+    settings,
+    'TEMPLATE_ID_TO_PATH'
+)
+
 class TemplatePrefixMixin(object):
 
     def get_render_template(self, context, instance, placeholder):
-        render_template = instance.custom_template
-        if not render_template or render_template == 'default':
-            render_template = self.render_template
-        if (hasattr(instance, 'app_config') and
-                instance.app_config.template_prefix):
-            return add_prefix_to_path(
-                TEMPLATE_PATH.format(render_template),
-                instance.app_config.template_prefix
-            )
-        return TEMPLATE_PATH.format(render_template)
+        return TEMPLATE_ID_TO_PATH.get(instance.custom_template, TEMPLATE_PATH.format(self.render_template))
 
 
 class NewsBlogPlugin(TemplatePrefixMixin, CMSPluginBase):

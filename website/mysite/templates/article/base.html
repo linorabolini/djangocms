@@ -1,0 +1,7 @@
+{% load i18n %}
+
+{% for article in article_list %}
+    {% block article %}{% endblock %}
+{% empty %}
+    <p>{% trans "No items available" %}</p>
+{% endfor %}

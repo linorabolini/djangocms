@@ -19,7 +19,9 @@
     <link href="{% static 'vendor/bootstrap/css/bootstrap.min.css' %}" rel="stylesheet" type="text/css">
 
     <!-- Custom Fonts -->
+    <style>
     {% include "partials/critical.css" %}
+    </style>
     <link href="{% static 'vendor/font-awesome/css/font-awesome.min.css' %}" rel="stylesheet" type="text/css">
 
     <!-- django CMS -->
@@ -48,7 +50,7 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a href="/" class="navbar-brand">Brand</a>
+                <a href="/" class="navbar-brand">LOGO HERE</a>
             </div>
             <div class="navbar-collapse collapse" id="bs-example-navbar-collapse-6" aria-expanded="false" style="height: 1px;">
                 <ul class="nav navbar-nav">
@@ -60,19 +62,19 @@
 
     <!-- Page Header -->
     {% block header %}
-        {% placeholder header or %}
-            <header class="intro-header">
-                <div class="container">
-                    <div class="row">
-                        <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
-                            <div class="page-heading">
-                                <h1>{% page_attribute "page_title" %}</h1>
-                            </div>
+        <header class="intro-header">
+            <div class="container">
+            {% placeholder header or %}
+                <div class="row">
+                    <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                        <div class="page-heading">
+                            <h1>{% page_attribute "page_title" %}</h1>
                         </div>
                     </div>
                 </div>
-            </header>
-        {% endplaceholder %}
+            {% endplaceholder %}
+            </div>
+        </header>
     {% endblock %}
 
     <!-- Main Content -->

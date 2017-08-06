@@ -1,0 +1,13 @@
+{% extends "article/base.html" %}
+{% load i18n staticfiles thumbnail cms_tags apphooks_config_tags %}
+
+{% block article %}
+    <article class="article posts-small
+        {% if article.is_featured %} featured{% endif %}
+        {% if not article.published %} unpublished{% endif %}">
+        <a href="{{article.get_absolute_url}}">
+            {% include "article/partials/picture.html" with c_='2x1' s_="600x300" l_="600x300" %}
+            {% include "article/partials/headline.html" %}
+        </a>
+    </article>
+{% endblock %}

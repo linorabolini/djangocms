@@ -3,7 +3,7 @@
 <ul>
     {% for author in authors_list %}
         <li>
-            {% include "aldryn_newsblog/includes/author.html" with author_view="true" namespace=instance.app_config.namespace %}
+            {% include "article/partials/author.html" with namespace=instance.app_config.namespace %}
         </li>
     {% empty %}
         <li>{% trans "No items available" %}</li>

@@ -2,11 +2,7 @@
 {% load i18n %}
 
 {% block newsblog_content %}
-    {% for article in article_list %}
-        {% include "aldryn_newsblog/includes/article_list.html" %}
-    {% empty %}
-        <p>{% trans "No items available" %}</p>
-    {% endfor %}
+    {% include "article/default.html" %}
 
     {% include "aldryn_newsblog/includes/pagination.html" %}
 {% endblock %}

@@ -1,0 +1,10 @@
+{% load i18n thumbnail %}
+
+{% if article.featured_image_id %}
+<picture class="crop crop-{{c_}}">
+    <source lazy-size lazy-srcset="{% thumbnail article.featured_image s_ crop subject_location=article.featured_image.subject_location %} 599w, {% thumbnail article.featured_image l_ crop subject_location=article.featured_image.subject_location %}" >
+    <img/>
+</picture>
+{% else %}
+<div class="placeholder crop {{c_}}"></div>
+{% endif %}

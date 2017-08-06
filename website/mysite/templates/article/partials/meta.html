@@ -1,0 +1,5 @@
+{% load i18n staticfiles thumbnail cms_tags apphooks_config_tags %}
+<p class="post-meta"> Posted by 
+    {% include "article/partials/author.html" with author=article.author %}
+    on {{ article.publishing_date|date:"F n, Y" }}
+</p>
